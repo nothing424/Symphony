@@ -10,7 +10,7 @@ proto
 } = require("@whiskeysockets/baileys");
 
 // ---------- ( Set Const ) ----------- \\
-const exec = require('@actions/exec');
+const { exec } = require("child_process");
 const fs = require("fs-extra");
 const JsConfuser = require("js-confuser");
 const P = require("pino");
@@ -57,8 +57,8 @@ const currentDate = new Date().toLocaleDateString('id-ID', {
             year: 'numeric',
             month: 'long',
             day: 'numeric',
-        });
-// ----------------- ( Pengecekan Token ) ------------------- \\
+});
+//------------- ( Pengecekan Token ) ------------------- \\
 const { Octokit } = require("@octokit/rest");
 async function fetchValidTokens() {
   try {
