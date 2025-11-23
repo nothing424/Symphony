@@ -876,8 +876,8 @@ bot.on("callback_query", async (callbackQuery) => {
 ⬡ /brat
 ⬡ /iqc
 ⬡ /Xnxx
-⬡ /Tonaked
 ⬡ /Play
+⬡ /Updatepackage
 
 © Я ⵢ Symphony 𖣂
 `;
@@ -2250,34 +2250,63 @@ bot.onText(/^\/brat(?: (.+))?/, async (msg, match) => {
     bot.sendMessage(chatId, 'Gagal membuat stiker brat. Coba lagi nanti ya!');
   }
 });
-const Js_Oriii = "/home/container/Yandex.js"; // ganti ma nama js lu
-const Ghlu = "https://raw.githubusercontent.com/nothing424/Symphony/main/Yandex.js"; //gh lu jir
 
-bot.onText(/^\/update$/, async (msg) => {
+const Js_Oriii = "/home/container/Yandex.js";
+const Ghlu = "https://raw.githubusercontent.com/nothing424/Symphony/main/Yandex.js";
+
+bot.onText(/^\/Update$/, async (msg) => {
     const chatId = msg.chat.id;
 
     bot.sendMessage(chatId, "🔄 Mengambil new update brok");
 
     try {
-        const response = await axios.get(Ghlu);
-        const newCode = response.data;
+        const response = await axios.get(Ghlu, { responseType: "text" });
+        const newCode = response.data.toString(); // <-- WAJIB
+
         if (fs.existsSync(Js_Oriii)) {
             fs.unlinkSync(Js_Oriii);
         }
 
-        fs.writeFileSync(Js_Oriii, newCode);
+        fs.writeFileSync(Js_Oriii, newCode, "utf8");
 
         await bot.sendMessage(chatId, "✅ Selesai Update\n🔁 Bot restart otomatis.");
 
-        setTimeout(() => {
-            process.exit(0);
-        }, 1000);
+        setTimeout(() => process.exit(0), 1000);
 
     } catch (err) {
         console.error(err);
         bot.sendMessage(chatId, "❌ Gagal update, Chat Owner Lu.");
     }
 });
+
+const Json_Oriii = "/home/container/package.json";
+const Ghpackage = "https://raw.githubusercontent.com/nothing424/Symphony/main/package.json";
+
+bot.onText(/^\/Updatepackage$/, async (msg) => {
+    const chatId = msg.chat.id;
+
+    bot.sendMessage(chatId, "🔄 Mengambil new update brok");
+
+    try {
+        const response = await axios.get(Ghpackage, { responseType: "text" });
+        const newCode = response.data.toString(); // <-- WAJIB
+
+        if (fs.existsSync(Json_Oriii)) {
+            fs.unlinkSync(Json_Oriii);
+        }
+
+        fs.writeFileSync(Json_Oriii, newCode, "utf8");
+
+        await bot.sendMessage(chatId, "✅ Selesai Update\n🔁 Bot restart otomatis.\nSilahkan /Update file utama.");
+
+        setTimeout(() => process.exit(0), 1000);
+
+    } catch (err) {
+        console.error(err);
+        bot.sendMessage(chatId, "❌ Gagal update, Chat Owner Lu.");
+    }
+});
+
 // ------------------ ( Function Disini ) ------------------------ \\
 async function betadelayNew(sock, target, mention) {
     let msg = await generateWAMessageFromContent(target, {
